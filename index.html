@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SmartCard Redirect</title>
+    <script>
+        // URL parametresini al
+        const urlParams = new URLSearchParams(window.location.search);
+        const data = urlParams.get('data');
+        
+        if (data) {
+            // Özel URI'ye yönlendir
+            window.location = "smart_card://qr_open?data=" + encodeURIComponent(data);
+            
+            // Uygulama yüklü değilse fallback göster
+            setTimeout(() => {
+                document.getElementById("fallback").style.display = "block";
+            }, 2000);
+        }
+    </script>
+</head>
+<body>
+    <h3>SmartCard bağlantısı açılıyor...</h3>
+    <div id="fallback" style="display: none;">
+        <p>Uygulama açılmadı mı?</p>
+        <a href="https://play.google.com/store/apps/details?id=com.senin.paketin">Uygulamayı indir</a>
+    </div>
+</body>
+</html>
