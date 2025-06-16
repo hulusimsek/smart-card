@@ -1,29 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html>
+  <head>
     <meta charset="UTF-8">
-    <title>SmartCard Redirect</title>
+    <title>SmartCard Açılıyor...</title>
     <script>
-        // URL parametresini al
-        const urlParams = new URLSearchParams(window.location.search);
-        const data = urlParams.get('data');
-        
+      window.onload = function () {
+        const params = new URLSearchParams(window.location.search);
+        const data = params.get("data");
+
         if (data) {
-            // Özel URI'ye yönlendir
-            window.location = "smart_card://qr_open?data=" + encodeURIComponent(data);
-            
-            // Uygulama yüklü değilse fallback göster
-            setTimeout(() => {
-                document.getElementById("fallback").style.display = "block";
-            }, 2000);
+          const deepLink = `smart_card://qr_open?data=${encodeURIComponent(data)}`;
+          
+          // <a> elementi oluştur
+          const a = document.createElement("a");
+          a.href = deepLink;
+          a.style.display = "none";
+          document.body.appendChild(a);
+
+          // Tarayıcıdan açmayı zorla
+          a.click();
+
+          // Fallback göster
+          setTimeout(() => {
+            document.getElementById("fallback").style.display = "block";
+          }, 2000);
         }
+      };
     </script>
-</head>
-<body>
-    <h3>SmartCard bağlantısı açılıyor...</h3>
+  </head>
+  <body>
+    <p>Uygulama açılmaya çalışılıyor...</p>
     <div id="fallback" style="display: none;">
-        <p>Uygulama açılmadı mı?</p>
-        <a href="https://play.google.com/store/apps/details?id=com.senin.paketin">Uygulamayı indir</a>
+      <p>Uygulama açılmadıysa <a href="https://play.google.com/store/apps/details?id=com.paketin.adı">buradan indir</a>.</p>
     </div>
-</body>
+  </body>
 </html>
