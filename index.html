@@ -1,37 +1,41 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>SmartCard Açılıyor...</title>
-    <script>
-      window.onload = function () {
-        const params = new URLSearchParams(window.location.search);
-        const data = params.get("data");
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Smart Card Açılıyor...</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+  </style>
+  <script>
+    window.onload = function () {
+      const params = new URLSearchParams(window.location.search);
+      const data = params.get("data");
 
-        if (data) {
-          const deepLink = `smart_card://qr_open?data=${encodeURIComponent(data)}`;
-          
-          // <a> elementi oluştur
-          const a = document.createElement("a");
-          a.href = deepLink;
-          a.style.display = "none";
-          document.body.appendChild(a);
+      if (data) {
+        const uri = `smart_card://qr_open?data=${encodeURIComponent(data)}`;
+        
+        // Deep link çağrısı için iframe kullan
+        const iframe = document.createElement("iframe");
+        iframe.style.display = "none";
+        iframe.src = uri;
+        document.body.appendChild(iframe);
 
-          // Tarayıcıdan açmayı zorla
-          a.click();
-
-          // Fallback göster
-          setTimeout(() => {
-            document.getElementById("fallback").style.display = "block";
-          }, 2000);
-        }
-      };
-    </script>
-  </head>
-  <body>
-    <p>Uygulama açılmaya çalışılıyor...</p>
-    <div id="fallback" style="display: none;">
-      <p>Uygulama açılmadıysa <a href="https://play.google.com/store/apps/details?id=com.paketin.adı">buradan indir</a>.</p>
-    </div>
-  </body>
+        // 2 saniye içinde açılmazsa fallback göster
+        setTimeout(() => {
+          document.getElementById("fallback").style.display = "block";
+        }, 2000);
+      }
+    };
+  </script>
+</head>
+<body>
+  <p>Smart Card uygulaması açılıyor...</p>
+  <div id="fallback" style="display:none;">
+    <p>Uygulama açılmadıysa <a href="https://play.google.com/store/apps/details?id=senin.paket.adin">buradan indir</a>.</p>
+  </div>
+</body>
 </html>
