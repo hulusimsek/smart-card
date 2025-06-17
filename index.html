@@ -10,32 +10,11 @@
       padding: 50px;
     }
   </style>
-  <script>
-    window.onload = function () {
-      const params = new URLSearchParams(window.location.search);
-      const data = params.get("data");
-
-      if (data) {
-        const uri = `smart_card://qr_open?data=${encodeURIComponent(data)}`;
-        
-        // Deep link çağrısı için iframe kullan
-        const iframe = document.createElement("iframe");
-        iframe.style.display = "none";
-        iframe.src = uri;
-        document.body.appendChild(iframe);
-
-        // 2 saniye içinde açılmazsa fallback göster
-        setTimeout(() => {
-          document.getElementById("fallback").style.display = "block";
-        }, 2000);
-      }
-    };
-  </script>
 </head>
 <body>
   <p>Smart Card uygulaması açılıyor...</p>
   <div id="fallback" style="display:none;">
-    <p>Uygulama açılmadıysa <a href="https://play.google.com/store/apps/details?id=senin.paket.adin">buradan indir</a>.</p>
+    <p>Uygulama açılmadıysa <a href="https://play.google.com/store/apps/">buradan indir</a>.</p>
   </div>
 </body>
 </html>
